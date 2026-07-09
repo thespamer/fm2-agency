@@ -1,0 +1,1 @@
+ollama create qwen3:14b-ctx8k -f Modelfile
