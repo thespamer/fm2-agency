@@ -1,13 +1,9 @@
 # FM2 Agency
 
 A local-first multi-agent crew that turns a one-line brief into a stack of
-<<<<<<< HEAD
 real deliverables — with a live operations dashboard so you can *watch* the
 agents work, not just read a terminal log.
-=======
-deliverables , with a live operations dashboard so you can watch the agents
-work, not just read a terminal log.
->>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
+
 
 Built on **CrewAI** + **Ollama**. No external API. No tokens leaving your
 network. Runs on a single consumer GPU (tested on an RTX 4070 Ti, 12 GB VRAM).
@@ -516,13 +512,7 @@ artifact or a bundled `.md`.
 
 MIT. Fork it, change the crew, point it at your own briefs.
 
-## Author
 
-<<<<<<< HEAD
-Juliano Souza — Fractional CTO, São Paulo. Built on a homelab RTX 4070 Ti
-because the most interesting AI work right now is the kind that doesn't phone
-home.
-=======
 Juliano Souza , Fractional CTO, São Paulo / Lisbon. Built on a homelab
 4070 Ti because the most interesting AI work right now is the kind that
 doesn't phone home.
