@@ -1,8 +1,13 @@
 # FM2 Agency
 
 A local-first multi-agent crew that turns a one-line brief into a stack of
+<<<<<<< HEAD
 real deliverables — with a live operations dashboard so you can *watch* the
 agents work, not just read a terminal log.
+=======
+deliverables , with a live operations dashboard so you can watch the agents
+work, not just read a terminal log.
+>>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
 
 Built on **CrewAI** + **Ollama**. No external API. No tokens leaving your
 network. Runs on a single consumer GPU (tested on an RTX 4070 Ti, 12 GB VRAM).
@@ -22,7 +27,7 @@ network. Runs on a single consumer GPU (tested on an RTX 4070 Ti, 12 GB VRAM).
 Most CrewAI tutorials show you `verbose=True` scrolling past in a terminal.
 FM2 gives you an actual operations floor: each agent has a status, its
 reasoning streams in, and deliverables assemble on the right as markdown you
-can download — per artifact or as one bundle.
+can download , per artifact or as one bundle.
 
 ---
 
@@ -74,6 +79,7 @@ This was built and tuned on an **RTX 4070 Ti (12 GB VRAM)** running Ollama.
 That constraint shaped every model decision, so let's be precise about it
 instead of hand-waving "just use a local model."
 
+<<<<<<< HEAD
 **The 12 GB rule that trips people up:** you cannot run several different
 models resident at once on 12 GB. A dense 14B model at Q4_K_M is ~8.5 GB; an
 8B at Q4 is ~5 GB. Try to hold both and Ollama spills layers to system RAM and
@@ -87,6 +93,28 @@ calling of the open local families as of mid-2026.
 **Why not the shiny MoE:** Qwen3-30B-A3B needs ~17-21 GB to load (all experts
 resident), so it does **not** fit on 12 GB, and has a known GPU-utilization
 issue in Ollama as of mid-2026. It's a 24 GB-card model.
+=======
+**The 12 GB rule that everyone gets wrong:** you cannot run several different
+models resident at once on 12 GB. A dense 14B at Q4_K_M is ~8.5 GB; an 8B at Q4
+is ~5 GB. Try to hold both and Ollama spills layers to system RAM and throughput
+collapses. So FM2 keeps **one model hot for the whole run** and varies behavior
+by prompt and temperature, not by swapping models per agent. On a 12 GB card,
+swapping models per role is *slower*, not smarter , load/unload costs seconds
+each time and dominates a short run.
+
+**Model choice , Qwen3 14B (Q4_K_M, ~8.5 GB):** best reasoning that fits in
+12 GB, and , the part that matters for agents , the most reliable tool calling
+of the open local families as of mid-2026 (it rarely drops parameters or
+hallucinates calls). For faster runs, `qwen3:8b` (~5 GB) is a drop-in via an env
+var.
+
+**Why not the shiny MoE:** Qwen3-30B-A3B looks perfect on paper (3B active, 30B
+total quality). But MoE models must load *all* experts into memory , ~17–21 GB
+at Q4 , so it does **not** fit on 12 GB, and as of mid-2026 it has a known
+GPU-utilization issue in Ollama (#10458). It's a 24 GB-card model. FM2's config
+is ready for it: point `OLLAMA_HOST` at a bigger box and flip
+`FM2_ROLE_ROUTING=1`.
+>>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
 
 **The context-window fix that made it fit:** the default Ollama context (up
 to 40k tokens) inflates memory footprint well past what's needed here. Pinning
@@ -283,8 +311,16 @@ Expected response:
 
 ### 9. Open the dashboard
 
+<<<<<<< HEAD
 The dashboard is a plain HTML file — it isn't served by the backend, you open
 it directly:
+=======
+The bar shows `backend ok` with your model + host when connected. Expect a full
+run to take **several minutes** , local 14B inference is not instant, and the
+dashboard reflects real work, not a canned animation.
+
+### Or skip the dashboard entirely
+>>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
 
 ```bash
 # macOS
@@ -327,6 +363,7 @@ open dashboard/index.html
 
 ## What you get back (the deliverables)
 
+<<<<<<< HEAD
 For the brief *"Content strategy for a YouTube channel about local AI for
 CTOs"*, a single run produced:
 
@@ -426,6 +463,28 @@ run `pip install -e .` yet.
 **`ollama create` fails with "no Modelfile found"** — on Windows, some text
 editors save `Modelfile` as `Modelfile.txt` behind a hidden extension. Verify
 with `dir` (not the Explorer GUI) that the file has no extension.
+=======
+**`llms.py`** , model routing. One resident model on 12 GB; per-role routing
+when you have the VRAM. This is the file to read if you want to understand the
+hardware reasoning.
+
+**`events.py`** , a per-run event bus. Each run gets an `asyncio.Queue`; CrewAI
+callbacks (which run in a worker thread) push events onto it; the SSE endpoint
+drains it to the browser. Swap for Redis pub/sub if you go multi-tenant.
+
+**`crew.py`** , the five agents and four tasks. `Process.hierarchical` with
+Marina as the explicit `manager_agent`. Each agent's `step_callback` streams its
+reasoning; each task's `callback` streams the finished deliverable as markdown.
+
+**`server.py`** , FastAPI. `POST /run` kicks off a crew in the background and
+returns a `run_id`; `GET /stream/{run_id}` is the SSE feed; `GET /health` lets
+the dashboard show live config.
+
+**`dashboard/index.html`** , single file, no build step. Consumes the SSE feed,
+maps whatever role/name CrewAI emits onto the five personas, renders reasoning
+in monospace and deliverables as rendered markdown, and lets you download each
+artifact or a bundled `.md`.
+>>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
 
 ---
 
@@ -459,6 +518,12 @@ MIT. Fork it, change the crew, point it at your own briefs.
 
 ## Author
 
+<<<<<<< HEAD
 Juliano Souza — Fractional CTO, São Paulo. Built on a homelab RTX 4070 Ti
 because the most interesting AI work right now is the kind that doesn't phone
 home.
+=======
+Juliano Souza , Fractional CTO, São Paulo / Lisbon. Built on a homelab
+4070 Ti because the most interesting AI work right now is the kind that
+doesn't phone home.
+>>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
