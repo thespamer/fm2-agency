@@ -514,4 +514,3 @@ MIT. Fork it, change the crew, point it at your own briefs.
 Juliano Souza , Fractional CTO, São Paulo / Lisbon. Built on a homelab
 4070 Ti because the most interesting AI work right now is the kind that
 doesn't phone home.
->>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
