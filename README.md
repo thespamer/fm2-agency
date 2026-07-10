@@ -75,7 +75,6 @@ This was built and tuned on an **RTX 4070 Ti (12 GB VRAM)** running Ollama.
 That constraint shaped every model decision, so let's be precise about it
 instead of hand-waving "just use a local model."
 
-<<<<<<< HEAD
 **The 12 GB rule that trips people up:** you cannot run several different
 models resident at once on 12 GB. A dense 14B model at Q4_K_M is ~8.5 GB; an
 8B at Q4 is ~5 GB. Try to hold both and Ollama spills layers to system RAM and
@@ -110,7 +109,7 @@ at Q4 , so it does **not** fit on 12 GB, and as of mid-2026 it has a known
 GPU-utilization issue in Ollama (#10458). It's a 24 GB-card model. FM2's config
 is ready for it: point `OLLAMA_HOST` at a bigger box and flip
 `FM2_ROLE_ROUTING=1`.
->>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
+
 
 **The context-window fix that made it fit:** the default Ollama context (up
 to 40k tokens) inflates memory footprint well past what's needed here. Pinning
@@ -307,16 +306,16 @@ Expected response:
 
 ### 9. Open the dashboard
 
-<<<<<<< HEAD
+
 The dashboard is a plain HTML file — it isn't served by the backend, you open
 it directly:
-=======
+
 The bar shows `backend ok` with your model + host when connected. Expect a full
 run to take **several minutes** , local 14B inference is not instant, and the
 dashboard reflects real work, not a canned animation.
 
 ### Or skip the dashboard entirely
->>>>>>> 8a8d408a4f75bc3760759f9ac73d4df112d2285e
+
 
 ```bash
 # macOS
@@ -359,7 +358,6 @@ open dashboard/index.html
 
 ## What you get back (the deliverables)
 
-<<<<<<< HEAD
 For the brief *"Content strategy for a YouTube channel about local AI for
 CTOs"*, a single run produced:
 
