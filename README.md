@@ -1,7 +1,7 @@
 # FM2 Agency
 
 A local-first multi-agent crew that turns a one-line brief into a stack of
-real deliverables — with a live operations dashboard so you can *watch* the
+real deliverables ,  with a live operations dashboard so you can *watch* the
 agents work, not just read a terminal log.
 
 
@@ -30,24 +30,24 @@ can download , per artifact or as one bundle.
 ## See it running
 
 A real run against the brief *"Content strategy for a YouTube channel about
-local AI for CTOs — 5 videos, editorial angle, and a full pilot script"* —
+local AI for CTOs ,  5 videos, editorial angle, and a full pilot script"* , 
 100% local, on the RTX 4070 Ti described below.
 
 **The dashboard, live:**
 
-![Crew running — Marina delegating, timer ticking](docs/images/01-crew-running.png)
+![Crew running ,  Marina delegating, timer ticking](docs/images/01-crew-running.png)
 *Marina (Head of Operations) receives the brief and starts delegating. Every
 other agent waits its turn while she works.*
 
-![First deliverable — Rafael done, demand map in the panel](docs/images/02-first-deliverable.png)
+![First deliverable ,  Rafael done, demand map in the panel](docs/images/02-first-deliverable.png)
 *Rafael (Researcher) finishes and hands off. His deliverable renders live in
-the panel on the right — titled, formatted, downloadable.*
+the panel on the right ,  titled, formatted, downloadable.*
 
-![Two deliverables — Camila done too](docs/images/03-two-deliverables.png)
+![Two deliverables ,  Camila done too](docs/images/03-two-deliverables.png)
 *Camila (Strategist) finishes next. Two deliverables now sit in the panel,
 each with its author's color accent.*
 
-![Delivery complete — all five agents done](docs/images/04-delivery-complete.png)
+![Delivery complete ,  all five agents done](docs/images/04-delivery-complete.png)
 *All five agents green, four deliverables ready to download, "Delivery
 complete." Total run time: ~6.5 minutes of local inference.*
 
@@ -58,12 +58,12 @@ complete." Total run time: ~6.5 minutes of local inference.*
 concrete CTO personas with pain points and goals.*
 
 ![Camila's positioning document and content calendar](docs/images/07-cli-strategist-output.png)
-*Camila's positioning doc — a differentiation thesis, audience profile, and a
+*Camila's positioning doc ,  a differentiation thesis, audience profile, and a
 full quarter-by-quarter editorial calendar.*
 
 ![Helena's review notes catching fabricated tool names and stale figures](docs/images/08-cli-reviewer-notes.png)
 *Helena (Editorial Reviewer) catching real problems: an outdated compliance
-figure, two fabricated tool names, unexplained jargon — each with a fix. This
+figure, two fabricated tool names, unexplained jargon ,  each with a fix. This
 is the clearest proof that a multi-agent structure earns its keep: one agent
 catching another's mistakes.*
 
@@ -81,8 +81,8 @@ models resident at once on 12 GB. A dense 14B model at Q4_K_M is ~8.5 GB; an
 throughput collapses. So FM2 keeps **one model hot for the whole run** and
 varies behavior by prompt and temperature, not by swapping models per agent.
 
-**Model choice — Qwen3 14B (Q4_K_M, ~8.5 GB):** best reasoning that fits in
-12 GB, and — the part that matters for agents — the most reliable tool
+**Model choice ,  Qwen3 14B (Q4_K_M, ~8.5 GB):** best reasoning that fits in
+12 GB, and ,  the part that matters for agents ,  the most reliable tool
 calling of the open local families as of mid-2026.
 
 **Why not the shiny MoE:** Qwen3-30B-A3B needs ~17-21 GB to load (all experts
@@ -114,7 +114,7 @@ is ready for it: point `OLLAMA_HOST` at a bigger box and flip
 **The context-window fix that made it fit:** the default Ollama context (up
 to 40k tokens) inflates memory footprint well past what's needed here. Pinning
 context to 8k took the model from **16 GB / 63% GPU** (spilling to CPU, slow)
-to **10 GB / 100% GPU** (fully resident, fast). Same model, same card — one
+to **10 GB / 100% GPU** (fully resident, fast). Same model, same card ,  one
 parameter.
 
 | Your GPU | Recommended setup |
@@ -160,7 +160,7 @@ on macOS/Linux it's a daemon (`ollama serve` if it's not already running).
 nvidia-smi
 ```
 
-This should list your GPU. If it doesn't, update your NVIDIA driver first —
+This should list your GPU. If it doesn't, update your NVIDIA driver first , 
 Ollama's installer bundles CUDA support, so you don't need to install the CUDA
 Toolkit separately, but you do need a current driver.
 
@@ -172,7 +172,7 @@ This is the step that matters most for a 12 GB card. Pulling the base model:
 ollama pull qwen3:14b
 ```
 
-Then create a variant with the context window pinned to 8k — this is what
+Then create a variant with the context window pinned to 8k ,  this is what
 keeps the whole model resident on the GPU instead of spilling to system RAM.
 Create a file named exactly `Modelfile` (no extension) with this content:
 
@@ -201,7 +201,7 @@ ollama ps
 
 You want to see **`100% GPU`** in the PROCESSOR column and a SIZE under
 ~11 GB. If you see a CPU percentage, the context is still too large, or
-something else is holding VRAM — close other GPU-heavy apps and retry.
+something else is holding VRAM ,  close other GPU-heavy apps and retry.
 
 ```
 NAME               ID              SIZE     PROCESSOR    CONTEXT    UNTIL
@@ -227,7 +227,7 @@ source .venv/bin/activate
 
 You'll know the virtual environment is active when your prompt shows
 `(.venv)` at the start of the line. **Every command below assumes it's
-active** — if you close your terminal, reactivate it before continuing.
+active** ,  if you close your terminal, reactivate it before continuing.
 
 ### 5. Install the dependencies
 
@@ -236,7 +236,7 @@ pip install -e .
 ```
 
 This reads `pyproject.toml` and installs CrewAI, FastAPI, uvicorn, and the
-rest. It can take a few minutes — CrewAI pulls in a fair amount.
+rest. It can take a few minutes ,  CrewAI pulls in a fair amount.
 
 Confirm the package registered correctly:
 
@@ -263,7 +263,7 @@ $env:FM2_MODEL = "ollama/qwen3:14b-ctx8k"
 
 A note that cost real debugging time: use `127.0.0.1`, not `0.0.0.0`.
 `0.0.0.0` is a bind address (what Ollama listens on), not something you can
-*connect to* — using it here causes a "missing protocol" / connection error.
+*connect to* ,  using it here causes a "missing protocol" / connection error.
 
 ### 7. Smoke-test with the CLI (no dashboard needed)
 
@@ -274,12 +274,12 @@ the terminal:
 python -m fm2_agency.run_cli "Content plan for a YouTube channel about local AI for CTOs"
 ```
 
-![CLI run starting — model, host, and brief printed to console](docs/images/05-cli-kickoff.png)
+![CLI run starting ,  model, host, and brief printed to console](docs/images/05-cli-kickoff.png)
 *What a healthy startup looks like: the correct Ollama host (`127.0.0.1`, not
 `0.0.0.0`), the pinned model, and single-model routing confirmed before the
 crew kicks off.*
 
-This will take **several minutes** — local 14B inference is not instant.
+This will take **several minutes** ,  local 14B inference is not instant.
 You'll see each agent's reasoning trace print as it works, then a final
 summary. Deliverables are saved to `./out/<timestamp>/*.md`.
 
@@ -292,7 +292,7 @@ dashboard will work too.
 uvicorn fm2_agency.server:app --host 0.0.0.0 --port 8765
 ```
 
-Leave this running — it's the server. In another terminal, confirm it's
+Leave this running ,  it's the server. In another terminal, confirm it's
 healthy:
 
 ```bash
@@ -307,7 +307,7 @@ Expected response:
 ### 9. Open the dashboard
 
 
-The dashboard is a plain HTML file — it isn't served by the backend, you open
+The dashboard is a plain HTML file ,  it isn't served by the backend, you open
 it directly:
 
 The bar shows `backend ok` with your model + host when connected. Expect a full
@@ -361,17 +361,17 @@ open dashboard/index.html
 For the brief *"Content strategy for a YouTube channel about local AI for
 CTOs"*, a single run produced:
 
-1. **Demand map & personas** (Rafael) — 5 market themes rated for traction and
+1. **Demand map & personas** (Rafael) ,  5 market themes rated for traction and
    competition, plus 3 detailed CTO personas with pain points and goals.
-2. **Positioning & calendar** (Camila) — a differentiation thesis, one-line
+2. **Positioning & calendar** (Camila) ,  a differentiation thesis, one-line
    brand promise, audience split, and a full four-quarter content calendar.
-3. **Pilot script draft** (Bruno) — 3 hook options with trade-offs, then a
+3. **Pilot script draft** (Bruno) ,  3 hook options with trade-offs, then a
    complete timestamped script in an operator's first-person voice.
-4. **Review notes & final script** (Helena) — a genuine editorial pass that
+4. **Review notes & final script** (Helena) ,  a genuine editorial pass that
    caught an outdated compliance figure, two fabricated tool names, and
    unexplained jargon, then delivered the corrected, approved script.
 
-Every deliverable is clean markdown — one file per artifact via the dashboard,
+Every deliverable is clean markdown ,  one file per artifact via the dashboard,
 plus a "download all" bundle, or saved automatically to `./out/<timestamp>/`
 when run from the CLI.
 
@@ -383,10 +383,10 @@ The whole system is a handful of small, readable files:
 
 | File | What it does |
 |------|---------------|
-| `src/fm2_agency/llms.py` | Model routing and the hardware logic — the file to read to understand the VRAM reasoning above |
+| `src/fm2_agency/llms.py` | Model routing and the hardware logic ,  the file to read to understand the VRAM reasoning above |
 | `src/fm2_agency/crew.py` | The five agents and four tasks |
 | `src/fm2_agency/events.py` | A per-run event bus that streams progress to the dashboard |
-| `src/fm2_agency/server.py` | FastAPI layer — `POST /run`, `GET /stream/{run_id}`, `GET /health` |
+| `src/fm2_agency/server.py` | FastAPI layer ,  `POST /run`, `GET /stream/{run_id}`, `GET /health` |
 | `src/fm2_agency/run_cli.py` | Terminal runner, no server needed |
 | `dashboard/index.html` | Single-file live dashboard, no build step |
 
@@ -421,7 +421,7 @@ And the crew is coordinated by an explicit manager:
 
 ```python
 crew = Crew(
-    agents=[rafael, camila, bruno, helena],   # workers only — the manager
+    agents=[rafael, camila, bruno, helena],   # workers only ,  the manager
     tasks=[research, strategy, script, review], # is NOT in this list
     process=Process.hierarchical,
     manager_agent=marina,
@@ -433,7 +433,7 @@ crew = Crew(
 Two gotchas baked into that snippet, both learned the hard way:
 
 - The manager agent must **not** appear in `agents=[...]` in a hierarchical
-  crew — CrewAI raises `manager_agent_in_agents` if it does.
+  crew ,  CrewAI raises `manager_agent_in_agents` if it does.
 - Without an explicit `manager_llm`, the hierarchical coordinator silently
   defaults to OpenAI and fails with a connection error, even though every
   worker agent is correctly configured for Ollama.
@@ -442,19 +442,19 @@ Two gotchas baked into that snippet, both learned the hard way:
 
 ## Troubleshooting
 
-**"Failed to connect to OpenAI API"** — your `manager_llm` isn't set, or
+**"Failed to connect to OpenAI API"** ,  your `manager_llm` isn't set, or
 `OLLAMA_HOST` is missing the `http://` scheme, or it's set to `0.0.0.0`
 instead of `127.0.0.1`. See step 6.
 
-**`ollama ps` shows CPU in the PROCESSOR column** — your context window is too
+**`ollama ps` shows CPU in the PROCESSOR column** ,  your context window is too
 large for your VRAM. Follow step 3 to pin `num_ctx` down (8192 is a safe
 starting point for 12 GB).
 
-**`ModuleNotFoundError: No module named 'fm2_agency'`** — your virtual
+**`ModuleNotFoundError: No module named 'fm2_agency'`** ,  your virtual
 environment isn't active (`(.venv)` should be in your prompt), or you haven't
 run `pip install -e .` yet.
 
-**`ollama create` fails with "no Modelfile found"** — on Windows, some text
+**`ollama create` fails with "no Modelfile found"** ,  on Windows, some text
 editors save `Modelfile` as `Modelfile.txt` behind a hidden extension. Verify
 with `dir` (not the Explorer GUI) that the file has no extension.
 =======
